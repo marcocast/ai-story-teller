@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import introImg from './storyteller.jpeg';
 import './App.css';
 import { Configuration, OpenAIApi } from "openai";
 
@@ -13,7 +13,7 @@ function App() {
 
 
 
-  const [story, setStory] = useState<string | undefined>("Coming ...");
+  const [story, setStory] = useState<string | undefined>("Ready");
   const [image, setImage] = useState<string | undefined>("");
 
   const [input, setInput] = useState<string | undefined>("");
@@ -21,7 +21,7 @@ function App() {
 
   const generateStory = (() => {
     setImage("");
-    setStory("");
+    setStory("Generating ...");
     // declare the data fetching function
     const fetchData = async () => {
       const response = await openai.createCompletion({
@@ -62,8 +62,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <input type="text" value={input} onChange={(e) => setInput(e.target.value)}></input>
+      <p>
+          Story teller for 5 years old kids
+        </p>
+        <img src={introImg}  alt="story teller" />
+        <p>
+          Add words and generate your story
+        </p>
+        <input size={50} type="text" value={input} onChange={(e) => setInput(e.target.value)}></input>
         <button onClick={() => generateStory()}>Generate story</button>
         <p>
           <img src={image}></img>
