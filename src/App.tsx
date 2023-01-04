@@ -25,7 +25,7 @@ function App() {
     // declare the data fetching function
     const fetchData = async () => {
       const response = await openai.createCompletion({
-        model: "text-davinci-003",
+        model: "text-curie-001",
         prompt: "generate story for 5 years old kid : " + input,
         temperature: 0.8,
         max_tokens: 500,
