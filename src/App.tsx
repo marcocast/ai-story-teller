@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import introImg from './storyteller.jpeg';
+import loadingImg from './200w.gif';
+
 import './App.css';
 import { Configuration, OpenAIApi } from "openai";
 
@@ -14,14 +16,16 @@ function App() {
 
 
   const [story, setStory] = useState<string | undefined>("Ready");
+  const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string | undefined>("");
 
   const [input, setInput] = useState<string | undefined>("");
 
 
   const generateStory = (() => {
+    setLoading(true);
     setImage("");
-    setStory("Generating ...");
+    setStory("");
     // declare the data fetching function
     const fetchData = async () => {
       const response = await openai.createCompletion({
@@ -47,7 +51,7 @@ function App() {
       const response = await openai.createImage({
         prompt: input || "",
         n: 1,
-        size: "512x512",
+        size: "256x256",
       })
       return response;
     }
@@ -55,8 +59,11 @@ function App() {
     fetchImageData().then(function (response) { 
       console.log(response)
       setImage(response.data.data[0].url); 
+      setLoading(false);
     
     }).catch(function (error) { console.log(error); });;
+
+    
   });
 
   return (
@@ -65,7 +72,7 @@ function App() {
       <p>
           Story teller for 5 years old kids
         </p>
-        <img src={introImg}  alt="story teller" />
+        <img src={introImg}  alt="story teller" width="150" height="150"/>
         <p>
           Add words and generate your story
         </p>
@@ -75,7 +82,7 @@ function App() {
           <img src={image}></img>
         </p>
         <p>
-          {story}
+          {loading ? (<img src={loadingImg}  alt="creating story" />) : story}
         </p>
         
         
